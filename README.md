@@ -72,7 +72,7 @@ Example of basic command to run the pipeline on your local machine on single-end
 
 `nextflow run eDNAFlow.nf -profile local --barcode 'pe_bc*'  --blast_db 'Path2TestBlastDataset/file.fasta' --custom_db 'path2/customDatabase/myDb' [OPTIONS]` 
 
-## Description of run parametr options
+## Description of run options
 The following parameters can be adjusted on the command line:
 
 **Mandatory parameters**
