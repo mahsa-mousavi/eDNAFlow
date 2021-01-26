@@ -31,14 +31,13 @@ DATA=$EDNA/testData2_Play
 cd $EDNA
 
 # define binding path and container directory in config file for singularity based on user path
-cp -n nextflow.config nextflow.config.orig
-head -n 157 ./nextflow.config.orig > .nextflow.config.tmp
-echo "runOptions = '-B $EDNA'" >> .nextflow.config.tmp
-echo "cacheDir = \"$EDNA/cache\"" >> .nextflow.config.tmp
-tail -n +158 ./nextflow.config.orig >> .nextflow.config.tmp
-mv .nextflow.config.tmp nextflow.config
+mv conf/initialTest.config conf/initialTest.config.bak 2>/dev/null
+echo "singularity {" >> conf/initialTest.config
+echo "runOptions = '-B $EDNA'" >> conf/initialTest.config
+echo "cacheDir = \"$EDNA/cache\"" >> conf/initialTest.config
+echo "}" >> conf/initialTest.config
 
 
 # run eDNAFlow on local machine for paired-end test data
 cd $DATA
-nextflow -c $EDNA/nextflow.config run $EDNA/eDNAFlow.nf -profile local --barcode "$DATA/pe_bc*"  --blast_db "$DATA/fake_db/fakeDB.fasta" --minAlignLeng '15' --minsize '3' --qcov '98' --lulu "$EDNA/lulu.R"
+nextflow -c $EDNA/nextflow.config run $EDNA/eDNAFlow.nf --test --barcode "$DATA/pe_bc*"  --blast_db "$DATA/fake_db/fakeDB.fasta" --minAlignLeng '15' --minsize '3' --qcov '98' --lulu "$EDNA/lulu.R"
