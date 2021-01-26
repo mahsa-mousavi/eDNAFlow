@@ -1,0 +1,55 @@
+os: linux
+sudo: required
+jdk:
+- openjdk8
+services:
+- docker
+branches:
+  only:
+  - master
+
+language: go
+
+go:
+    - "1.13"
+
+python:
+    - "3.7"
+
+addons:
+  apt:
+    packages:
+      - flawfinder
+      - squashfs-tools
+      - uuid-dev
+      - libuuid1
+      - libffi-dev
+      - libssl-dev
+      - libssl1.0.0
+      - libarchive-dev
+      - libgpgme11-dev
+      - libseccomp-dev
+  homebrew:
+    packages:
+      - squashfs
+    update: true
+
+sudo: required
+#dist: trusty
+
+matrix:
+  include:
+    - python: "2.6"
+    - python: "3.5"
+
+before_install:
+  - sudo chmod u+x .travis/*.sh
+  - /bin/bash .travis/setup.sh
+
+install:
+- sudo apt-get -qq update
+- sudo apt-get -qq -y install graphviz realpath
+script:
+- curl -fsSL get.nextflow.io | bash
+- singularity pull  --name biocontainers-adapterremoval-v2.2.0-1-deb_cv1.img.pulling.1606372209985 docker://biocontainers/adapterremoval:v2.2.0-1-deb_cv1
+- ./nextflow run eDNAFlow.nf --reads "./testData2_Play/test_30000reads.fastq" --barcode "./testData2_Play/se_bc*" --blast_db "`realpath ./testData2_Play/fake_db/fakeDB.fasta`" --lulu "lulu.R"
