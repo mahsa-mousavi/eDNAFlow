@@ -18,8 +18,7 @@ getLineage = '''
 d="$(date +"%d-%m-%Y")" 
 mkdir ${d}_taxdump
 cd ${d}_taxdump 
-cp  /home/267610k/Desktop/new_taxdump.zip .
-# wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip 
+wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip 
 unzip new_taxdump.zip 
 mv rankedlineage.dmp ..  
 cd .. 

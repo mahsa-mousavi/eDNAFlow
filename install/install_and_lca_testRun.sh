@@ -39,5 +39,5 @@ echo "}" >> conf/initialTest.config
 
 # run eDNAFlow on local machine for single-end test data
 cd $DATA
-nextflow -c $EDNA/nextflow.config run $EDNA/eDNAFlow.nf --test --taxonomyAssignment --zotuTable "$DATA/curated_zotuTable_2test_LCAscript.tab" --blastFile "$DATA/blastResult_2test_LCAscript.tab" --lca_qcov '100' --lca_pid '98' --lca_diff '1' --lca_output "$EDNA/lca_result"
+nextflow -c $EDNA/nextflow.config run $EDNA/eDNAFlow.nf --test --taxonomyAssignment --zotuTable "$DATA/curated_zotuTable_2test_LCAscript.tab" --blastFile "$DATA/blastResult_2test_LCAscript.tab" --lca_qcov '100' --lca_pid '98' --lca_diff '1' --lca_output "lca_result" --lca_script "$EDNA/LCA_taxonomyAssignment_scripts/runAssign_collapsedTaxonomy.py"
 
