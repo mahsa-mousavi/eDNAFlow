@@ -18,7 +18,8 @@ getLineage = '''
 d="$(date +"%d-%m-%Y")" 
 mkdir ${d}_taxdump
 cd ${d}_taxdump 
-wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip 
+cp  /home/267610k/Desktop/new_taxdump.zip .
+# wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip 
 unzip new_taxdump.zip 
 mv rankedlineage.dmp ..  
 cd .. 
@@ -36,18 +37,15 @@ out
 
 
 # setting up input parameters
-tableFile = input("Please enter your zotu/otu table file name here: ")
-blastFile = input("Please enter name of your blast file here: ")
-qCovLim = eval(input(
-    "Please enter your threshold for filtering % of query coverage (e.g 100, 99): "))
-pidLim = eval(
-    input("Please enter your threshold for filtering %identity(e.g 98, 97): "))
-pid_diffCut = eval(input(
-    "Please enter your threshold for defining insignificant difference between %identities (It can be an integer (e.g 1, 2)  or decimal (e.g 0.5 0.25)): "))
+tableFile = str(sys.argv[1])
+blastFile = str(sys.argv[2])
+qCovLim = sys.argv[3]
+pidLim = sys.argv[4]
+pid_diffCut = sys.argv[5]
 
 # define output file, open it and redirect standard output to this file
 def_output = sys.stdout
-output = input("What would you like to call your output file: ")
+output = str(sys.argv[6])
 f = open(output, 'w')
 sys.stdout = f
 
