@@ -53,4 +53,4 @@ script:
 - curl -fsSL get.nextflow.io | bash
 - singularity pull  --name biocontainers-adapterremoval-v2.2.0-1-deb_cv1.img.pulling.1606372209985 docker://biocontainers/adapterremoval:v2.2.0-1-deb_cv1
 - ./nextflow run eDNAFlow.nf --reads "./testData2_Play/test_30000reads.fastq" --barcode "./testData2_Play/se_bc*" --blast_db "`realpath ./testData2_Play/fake_db/fakeDB.fasta`" --lulu "lulu.R"
-- nextflow -c $EDNA/nextflow.config run $EDNA/eDNAFlow.nf --test --taxonomyAssignment --zotuTable "./testData2_Play/curated_zotuTable_2test_LCAscript.tab" --blastFile "./testData2_Play/blastResult_2test_LCAscript.tab" --lca_qcov '100' --lca_pid '98' --lca_diff '1' --lca_output "lca_result"  
+- ./nextflow run eDNAFlow.nf --taxonomyAssignment --zotuTable "./testData2_Play/curated_zotuTable_2test_LCAscript.tab" --blastFile "./testData2_Play/blastResult_2test_LCAscript.tab" --lca_qcov '100' --lca_pid '98' --lca_diff '1' --lca_output "lca_result"  
