@@ -95,7 +95,7 @@ The following parameters can be adjusted on the command line to achieve differen
 To see a list of available options run:
 `nextflow run eDNAFlow.nf --help`
 
-**Mandatory parameters if your sequences are NOT demultiplexed**
+### Mandatory parameters if your sequences are NOT demultiplexed
 
 `--reads 'read.fastq'`: provide the name of your raw fastq file; **You should NOT specify this option if reads are paired-end as they get identified automatically by default**; reads must be unzipped
 
@@ -107,7 +107,7 @@ To see a list of available options run:
 
 `--custom_db 'absolutePath2/customDatabase/myDb'`: the absolute path to where custom database is stored
 
-**Mandatory parameters if your sequences are demultiplexed**
+### Mandatory parameters if your sequences are demultiplexed
 
 `--skipDemux`: It's a boolean 
 
@@ -119,23 +119,30 @@ To see a list of available options run:
 
 `--custom_db 'absolutePath2/customDatabase/myDb'`: the absolute path to where custom database is stored
 
-**Mandatory & optional parameters for running LCA taxonomy assignment script**
+### Mandatory & optional parameters for running LCA taxonomy assignment script
 
 For description of LCA script and required file formats see section below: LCA (Lowest Common Ancestor) script for assigning taxonomy
 
 ***Mandatory***
+
 `--taxonomyAssignment`: It's a boolean
+
 `--zotuTable "path2/curatedOruncurated_ZotuTable_file"`: Provide the name or path to the ZOTU table; 
+
 `--blastFile "path2/blastResult_file"`: Provide the name or path to the blast result
 
 ***Optional***
+
 `--lca_qcov "percent"`: percent of query coverage; Default is 100
+
 `--lca_pid "percent`: percent of identity; Default is 97
+
 `--lca_diff "float"`: Diff; Default is 1
+
 `--lca_output "string"`: Output file name
 
 
-**Skipping and/or isolating steps**
+### Skipping and/or isolating steps
 
 `--onlyDemux`: It's a boolean. If you only want to demultiplex your raw file.
 
@@ -143,13 +150,15 @@ For description of LCA script and required file formats see section below: LCA (
 
 `--skipFastqc`: It will skip quality checking of both raw and filtered files
 
-**Parameters to run eDNAFlow on Cloud/HPC**
+### Parameters to run eDNAFlow on Cloud/HPC
 
 `-profile option`: Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC) and "zeus" (it's specific to users who have access to ZEUS - a high-throughput HPC cluster at the Pawsey Supercomputing Centre). e.g. -profile nimbus
 
 `--bindDir "path2/directoryToBind"`: If you run eDNAFlow on Cloud or HPC, you will need to specify this option, so singularity can bind a directory on the host system. On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume. e.g. --bindDir "/scratch"  
 
-**Genearal Optional parameters**
+### Genearal Optional parameters
+
+`--help`: Show help message
 
 `--publish_dir_mode "symlink"`: Choose between symlink (Default), copy, link; see [Nextflow documentation](https://www.nextflow.io/docs/latest/process.html) on "Table of publish modes" to understand these options
 
