@@ -5,68 +5,93 @@ def helpMessage() {
 
     Usage:
 
-    The typical command for running the pipeline is as follows:
+    Examples of basic commands to run the pipeline on local machine:
 
-    nextflow run nf-core/ednaflow --reads 'file.fastq'--barcode 'bc_*.txt' --blast_db 'path2/LocalGenbankDatabase/nt' -profile singularity 
-
-    Mandatory arguments:
-      -profile [str]                  Configuration profile to use. Can use multiple (comma separated)
-                                      Available: conda, docker, singularity, test, awsbatch, <institute> and more
-
-    Input
-      --reads [file]                  Input data name (must be surrounded with quotes); do NOT specify this option if reads are paired-end as they get identified automatically by default; reads must be unzipped
-      --barcode [file]                Barcode file name; barcode file format must match OBITools requirement; if multiple barcode files exist (e.g. bc_1.txt; bc_2.txt) it can be specified like this: 'bc*.txt'  
+    For single-end run:
+    nextflow run eDNAFlow.nf --reads 'file.fastq' --barcode 'bc_*.txt' --blast_db 'path2/LocalGenbankDatabase/nt' [OPTIONS] 
+    
+    For paired-end run:
+    nextflow run eDNAFlow.nf --barcode 'pe_bc*' --blast_db 'Path2TestBlastDataset/file.fasta' --custom_db 'path2/customDatabase/myDb' [OPTIONS]
+    
+    For running LCA taxonomy assignment script
+    nextflow run eDNAFlow.nf --taxonomyAssignment --zotuTable "path2/curatedOruncurated_ZotuTable_file" --blastFile "path2/blastResult_file" --lca_output "my_lca_result" [OPTIONS]
+    
+    Mandatory arguments if sequences are NOT demultiplexed
+      --reads [file]                  Input data name (must be surrounded with quotes);
+                                      do NOT specify this option if reads are paired-end as they get identified automatically by default;
+                                      reads must be unzipped
+      --barcode [file]                Barcode file name; barcode file format must match OBITools requirement;
+                                      if multiple barcode files exist (e.g. bc_1.txt; bc_2.txt) it can be specified like this: 'bc*.txt'  
 
     At least one of the below databases must be specified.
-      --blast_db [dir]                Path to local nt databse 
-      --custom_db [dir]               Path to custom database
+      --blast_db [dir]                Absolute path to local nt databse 
+      --custom_db [dir]               Absolute path to custom database
     
-    Options:
-
-    Skipping                          Skip any of the mentioned steps
+    Mandatory arguments if sequences are demultiplexed
       --skipDemux [bool]
-      --demuxedInput [file]
+      --demuxedInput [file]           A fasta file holding all the demultiplexed sequences;
+                                      Format of the sample identifier must match USEARCH requirements
+    
+    At least one of the below databases must be specified.
+      --blast_db [dir]                Absolute path to local nt databse 
+      --custom_db [dir]               Absolute path to custom database
 
-    Quality control    
+    Mandatory and optional arguments for running LCA taxonomy assignment script
+      --taxonomyAssignment [bool]
+      --zotuTable [dir]               Path to Zotu table file
+      --blastFile [dir]               Path to blast result file
 
+      Optional
+      --lca_qcov    [num]             Percent of query coverage; Default is 100
+      --lca_pid     [num]             Percent of identity; Default is 97
+      --lca_diff    [num]             Diff, Default is 1
+      --lca_output  [string]          Output file name
+    
+    Skipping                          Skip any of the mentioned steps
+      --skipDemux [bool]              If this option is set, then --demuxedInput [file] must be provided
+      --skipFastqc [bool]
+
+    Parameters to run eDNAFlow on Cloud/HPC
+      -profile [string]                 Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC)
+                                      and "zeus" (it's specific to users who have access to ZEUS - a high-throughput HPC cluster at the Pawsey Supercomputing Centre)
+                                      e.g. -profile nimbus
+      --bindDir [dir]                   If you run eDNAFlow on Cloud or HPC, you will need to specify this option
+                                      On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume.
+                                      e.g. --bindDir "/scratch"
+    
+    General optional parameters
+      --help                            Show this help message
+      --publish_dir_mode [string]       Choose between symlink (Default), copy, link
+      --singularityDir [dir]            Directory where singularity images will be stored
+    
     Demultiplexing
       --onlyDemux [bool]
+      
 
     Quality filtering / Merging
-      --minQuality [num]
-      --minAlignLeng [num]
-      --minLen [num]
+      --minQuality [num]              The minimum Phred quality score to apply for quality control of raw sequences; Default is 20
+      --minAlignLeng [num]            The minimum alignment length for merging read1 and read2; Default is 12
+      --minLen [num]                  The minimum length allowed for sequences; Default is 50
 
     ZOTU formation
-      --minsize [num]
-      --mode [str]                   Default is usearch32; for running with 64 version the mode has to be set to 64 (i.e. --mode 'usearch64') and below option has to be specified as well
-      --usearch64 [file]             Full path to where usearch64 bit version is stored locally
+      --minsize [num]                 The minimum abundance; input sequences with lower abundances are removed; Default is 8
 
-    Blast filtering
-      --maxTarSeq [num]
-      --perc_identity [num]
-      --evalue [num]
-      --qcov [num]
+    Blast parameters
+      --maxTarSeq [num]               the maximum number of target sequences for hits per query to be returned by Blast; Default is 10
+      --perc_identity [num]           percentage of identical matches; Default is 95
+      --evalue [num]                  expected value for saving blast hits; Default is 1e-3
+      --qcov [num]                    the percent of the query that has to form an alignment against the reference to be retained;
+                                      Higher values prevent alignments of only a short portion of the query to a reference; Default is 100
+
+    Choice of USEARCH32 vs USEARCH64 
+      --mode [str]                   Default is usearch32; for running with 64 version the mode has to be set to --mode 'usearch64'
+                                     and below option has to be specified as well
+      --usearch64 [dir]              Full path to where usearch64 bit version is stored locally
 
     LULU
-      --lulu [file]                  Path to lulu.R file   
-
-    Taxonomy Assignment
-      --taxonomyAssignment [bool]
-      --taxAssignment
-      --zotuTable
-      --blastFile
-      --lca_qcov
-      --lca_pid
-      --lca_diff
-      --lca_output
-
-      --outdir [file]                 The output directory where the results will be saved
-      --publish_dir_mode [str]        Mode for publishing results in the output directory. Available: symlink, rellink, link, copy, copyNoFollow, move (Default: copy)
-      --email [email]                 Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits
-      --email_on_fail [email]         Same as --email, except only send mail if the workflow is not successful
-      --max_multiqc_email_size [str]  Threshold size for MultiQC report to be attached in notification email. If file generated by pipeline exceeds the threshold, it will not be attached (Default: 25MB)
-      -name [str]                     Name for the pipeline run. If not specified, Nextflow will automatically generate a random mnemonic
+      --lulu [file]                  An R script to run post-clustering curation with default settings of LULU;
+                                     This file has been provided and must be present in the same directory as other scripts;
+                                     by default eDNAFlow will be looking for this file in the same directory where eDNAFlow.nf is. 
 
     """.stripIndent()
 }
