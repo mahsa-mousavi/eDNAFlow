@@ -38,14 +38,15 @@ def helpMessage() {
 
     Mandatory and optional arguments for running LCA taxonomy assignment script
       --taxonomyAssignment [bool]
-      --zotuTable [dir]               Path to Zotu table file
-      --blastFile [dir]               Path to blast result file
+      --zotuTable [file]              A raw or LULU curated Zotu, OTU, or ASV table file; file must exist in the same directory as eDNAFlow;
+      --blastFile [file]              Blast result file; file must exist in the same directory as eDNAFlow
+                                      For file format requirements of --zotuTable & --blastFile check out eDNAFlow GitHub page
 
       Optional
-      --lca_qcov    [num]             Percent of query coverage; Default is 100
-      --lca_pid     [num]             Percent of identity; Default is 97
-      --lca_diff    [num]             Diff, Default is 1
-      --lca_output  [string]          Output file name
+      --lca_qcov    [num]             Percent of query coverage; Default is ${params.lca_qcov}
+      --lca_pid     [num]             Percent of identity; Default is ${params.lca_pid}
+      --lca_diff    [num]             The difference (Diff) between % identities of two hits when their qCov is equalDiff; Default is ${params.lca_diff}
+      --lca_output  [string]          Output file name; Default is ${params.lca_output}
     
     Skipping                          Skip any of the mentioned steps
       --skipDemux [bool]              If this option is set, then --demuxedInput [file] must be provided
@@ -61,7 +62,7 @@ def helpMessage() {
     
     General optional parameters
       --help                            Show this help message
-      --publish_dir_mode [string]       Choose between symlink (Default), copy, link
+      --publish_dir_mode [string]       Choose between symlink , copy, link. Default is ${params.publish_dir_mode}
       --singularityDir [dir]            Directory where singularity images will be stored
     
     Demultiplexing
@@ -69,22 +70,22 @@ def helpMessage() {
       
 
     Quality filtering / Merging
-      --minQuality [num]              The minimum Phred quality score to apply for quality control of raw sequences; Default is 20
-      --minAlignLeng [num]            The minimum alignment length for merging read1 and read2; Default is 12
-      --minLen [num]                  The minimum length allowed for sequences; Default is 50
+      --minQuality [num]              The minimum Phred quality score to apply for quality control of raw sequences; Default is ${params.minQuality}
+      --minAlignLeng [num]            The minimum alignment length for merging read1 and read2; Default is ${params.minAlignLeng}
+      --minLen [num]                  The minimum length allowed for sequences; Default is ${params.minLen}
 
     ZOTU formation
-      --minsize [num]                 The minimum abundance; input sequences with lower abundances are removed; Default is 8
+      --minsize [num]                 The minimum abundance; input sequences with lower abundances are removed; Default is ${params.minsize}
 
     Blast parameters
-      --maxTarSeq [num]               the maximum number of target sequences for hits per query to be returned by Blast; Default is 10
-      --perc_identity [num]           percentage of identical matches; Default is 95
-      --evalue [num]                  expected value for saving blast hits; Default is 1e-3
-      --qcov [num]                    the percent of the query that has to form an alignment against the reference to be retained;
-                                      Higher values prevent alignments of only a short portion of the query to a reference; Default is 100
+      --maxTarSeq [num]               The maximum number of target sequences for hits per query to be returned by Blast; Default is ${params.maxTarSeq}
+      --perc_identity [num]           Percentage of identical matches; Default is ${params.perc_identity}
+      --evalue [num]                  Expected value for saving blast hits; Default is ${params.evalue}
+      --qcov [num]                    The percent of the query that has to form an alignment against the reference to be retained;
+                                      Higher values prevent alignments of only a short portion of the query to a reference; Default is ${params.qcov}
 
     Choice of USEARCH32 vs USEARCH64 
-      --mode [str]                   Default is usearch32; for running with 64 version the mode has to be set to --mode 'usearch64'
+      --mode [str]                   Default is '${params.mode}'; for running with 64 version the mode has to be set to --mode 'usearch64'
                                      and below option has to be specified as well
       --usearch64 [dir]              Full path to where usearch64 bit version is stored locally
 
@@ -92,7 +93,10 @@ def helpMessage() {
       --lulu [file]                  An R script to run post-clustering curation with default settings of LULU;
                                      This file has been provided and must be present in the same directory as other scripts;
                                      by default eDNAFlow will be looking for this file in the same directory where eDNAFlow.nf is. 
-
+    Other options
+    --max_memory [str]               Memory limit for each step of pipeline. e.g. --max_memory '8.GB'. Default: '${params.max_memory}'
+    --max_time [str]                 Time limit for each step of the pipeline. e.g. --max_time '2.h'. Default: '${params.max_time}'
+    --max_cpus [str]                 Maximum number of CPUs to use for each step of the pipeline. e.g. --max_cpus '1' Default: '${params.max_cpus}'
     """.stripIndent()
 }
 

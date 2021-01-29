@@ -127,9 +127,9 @@ For description of LCA script and required file formats see section below: LCA (
 
 `--taxonomyAssignment`: It's a boolean
 
-`--zotuTable "path2/curatedOruncurated_ZotuTable_file"`: Provide the name or path to the ZOTU table; 
+`--zotuTable "curatedOruncurated_ZotuTable_file"`: Provide the curated or uncurated ZOTU, OTU or ASV table file name; 
 
-`--blastFile "path2/blastResult_file"`: Provide the name or path to the blast result
+`--blastFile "blastResult_file"`: Provide the blast result file name;
 
 ***Optional***
 
@@ -137,9 +137,9 @@ For description of LCA script and required file formats see section below: LCA (
 
 `--lca_pid "percent`: percent of identity; Default is 97
 
-`--lca_diff "float"`: Diff; Default is 1
+`--lca_diff "float"`: The difference (Diff) between % identities of two hits when their qCov is equal; e.g. --lca_diff '0.5'; Default is 1
 
-`--lca_output "string"`: Output file name
+`--lca_output "string"`: Output file name; 
 
 
 ### Skipping and/or isolating steps
