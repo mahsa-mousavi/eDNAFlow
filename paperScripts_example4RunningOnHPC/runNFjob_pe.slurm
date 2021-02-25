@@ -16,4 +16,4 @@ module load singularity
 module load nextflow
 
 # for description of flags check the README file
-nextflow run eDNAFlow.nf -profile cluster --barcode '*.tab' --minAlignLeng '12' --minsize '2' --minLen '100' --perc_identity '95' --maxTarSeq '10' --blast_db '/group/data/blast/nt' 
+nextflow run eDNAFlow.nf -profile zeus --barcode '*.tab' --minAlignLeng '12' --minsize '2' --minLen '100' --perc_identity '95' --maxTarSeq '10' --blast_db '/group/data/blast_v5/nt' 
