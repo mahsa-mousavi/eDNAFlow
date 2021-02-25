@@ -2,6 +2,8 @@
 ## About the workflow
 eDNAFlow is a fully automated pipeline that employs a number of state-of-the-art applications to process eDNA data from raw sequences (single-end or paired-end) to generation of curated and non-curated zero-radius operational taxonomic units (ZOTUs) and their abundance tables. As part of eDNAFlow, we also present an in-house Python script to assign taxonomy to ZOTUs based on user specified thresholds for assigning Lowest Common Ancestor (LCA). This pipeline is based on Nextflow and Singularity which enables a scalable, portable and reproducible workflow using software containers on a local computer, clouds and high-performance computing (HPC) clusters.
 
+For more information on eDNAFlow and other software used as part of the workflow please read "eDNAFlow, an automated, reproducible and scalable workflow for analysis of environmental DNA (eDNA) sequences exploiting Nextflow and Singularity" in Molecular Ecology Resources with DOI: https://doi.org/10.1111/1755-0998.13356. If you use eDNAFlow, we appreciate if you could cite the eDNAFlow paper and the other papers describing the underlying software.
+
 ![alt text](https://github.com/mahsa-mousavi/eDNAFlow/blob/master/images/eDNAFlow.jpg)
 
 ## Setup and test the pipeline
@@ -97,7 +99,7 @@ To see a list of available options run:
 
 ### Mandatory parameters if your sequences are NOT demultiplexed
 
-`--reads 'read.fastq'`: provide the name of your raw fastq file; **You should NOT specify this option if reads are paired-end as they get identified automatically by default**; reads must be unzipped
+`--reads 'read.fastq'`: provide the name of your raw fastq file; **You should NOT specify this option if reads are paired-end as they get identified automatically by default, BUT you need to make sure your paired-end file name ends with _R1.fastq & _R2.fastq**; reads must be unzipped
 
 `--barcode 'bc.tab'`: your barcode file name; barcode file format must match [OBITools requirement](https://pythonhosted.org/OBITools/scripts/ngsfilter.html); if multiple barcode files exist (e.g. bc_1.txt; bc_2.txt) it can be specified like this: bc*.txt
 
@@ -113,8 +115,7 @@ To see a list of available options run:
 
 `--demuxedInput 'demuxedFile.fasta'`: provide name of the fasta file holding all the demultiplexed sequences. Format of the sample identifier must match [USEARCH requirements](https://www.drive5.com/usearch/manual/upp_labels_sample.html). 
 
-* At least one of the below databases must be specified. 
-
+* At least one of the below databases must be specifieThe
 `--blast_db 'absolutePath2/LocalGenbankDatabase/nt'`: the absolute path to where nt databse is stored 
 
 `--custom_db 'absolutePath2/customDatabase/myDb'`: the absolute path to where custom database is stored
@@ -165,7 +166,7 @@ For description of LCA script and required file formats see section below: LCA (
 
 `--singularityDir "path2/folderHoldingSingularityImages"`: If you are planning to run eDNAFlow regularly, we suggest you create a folder to hold singularity images, and then specify the path leading to this folder whenever you run eDNAFlow (e.g. --singularityDir "/home/user/Desktop/singularity_image_storage"). The first time you run eDNAFlow it will automatically download all the neccessary container images and will put them in that specified folder. Therefore, next time you run it, it runs faster as it doesn't need to pull those images again, provided you give it the same option --singularityDir as used before. If this option is not set, then those images can be found inside directory work/singularity.  
 
-##### Quality filtering
+##### Quality filtering & demultiplexing
 
 `--minQuality '20'`: the minimum Phred quality score to apply for quality control of raw sequences; Default is 20; must be an integer 
 
@@ -173,6 +174,7 @@ For description of LCA script and required file formats see section below: LCA (
 
 `--minLen '50'`: the minimum length allowed for sequences; Default is 50; must be an integer
 
+`--primer_mismatch '2'`: number of mismatches allowed for matching primers; Default is 2; Note that NO mismatches are allowed for matching tags at anytime.
 
 ##### Threshold for forming ZOTUs
 `--minsize '8'`: the minimum abundance; input sequences with lower abundances are removed; Default is 8; to check how adjusting this option affects the results check out [Usearch documentation](https://drive5.com/usearch/manual/cmd_unoise3.html)
@@ -221,6 +223,13 @@ If you want to use the curated ZOTU table, first you need to make some changes i
 1) Remove all occurrence of ײ in the curated file. 
 2) In the first line add #ID followed by a tab.
 
+**NOTE 3:**
+
+eDNAFlow allows you to specify your custom database for blast, but LCA script may not be able to parse and assign taxonomy of the custom results depending on how you built your custom database. This is because the LCA script needs taxonomy ID information (i.e. "staxids" which is the 3rd column in blast result file) to link the blast result with GenBank taxonomy. This ID will be pulled automatically when blasting against the Genbank database. However, for custom databases, if when you built it, you did not map the sequence identifiers to taxids, then it will not be available after blast and as a result LCA script will not be able to generate results for this.
+
+We suggest you check blast manual on how to make custom database. A nice example on making custom database can be found [here](https://www.ncbi.nlm.nih.gov/books/NBK279688/), but note that this example is based on protein.
+
+**Extra NOTE:**
 
 Provided you have wget* installed on your system the script starts downloading the taxonomy dump file from NCBI and will put it in a folder with the date of that day. 
  

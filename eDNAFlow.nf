@@ -19,7 +19,7 @@ def helpMessage() {
     Mandatory arguments if sequences are NOT demultiplexed
       --reads [file]                  Input data name (must be surrounded with quotes);
                                       do NOT specify this option if reads are paired-end as they get identified automatically by default;
-                                      reads must be unzipped
+                                      reads must be unzipped. The paired-end file name must end with _R1.fastq & _R2.fastq
       --barcode [file]                Barcode file name; barcode file format must match OBITools requirement;
                                       if multiple barcode files exist (e.g. bc_1.txt; bc_2.txt) it can be specified like this: 'bc*.txt'  
 
@@ -67,7 +67,7 @@ def helpMessage() {
     
     Demultiplexing
       --onlyDemux [bool]
-      
+      --primer_mismatch [num]           Number of mismatch allowed for matching primers; Default is ${params.primer_mismatch}
 
     Quality filtering / Merging
       --minQuality [num]              The minimum Phred quality score to apply for quality control of raw sequences; Default is ${params.minQuality}
@@ -109,19 +109,20 @@ if (params.help) {
 // setting up variables 
 
 fastQC_input_ch = Channel.fromFilePairs(params.reads, size: -1)
-reads_ch      = Channel.fromFilePairs(params.reads, size: -1)
-bc_ch         = Channel.fromPath(params.barcode)
-minQuality    = params.minQuality
-minAlignLeng  = params.minAlignLeng
-minLen        = params.minLen
-minsize       = params.minsize
-maxTarSeq     = params.maxTarSeq
+reads_ch = Channel.fromFilePairs(params.reads, size: -1)
+bc_ch = Channel.fromPath(params.barcode)
+minQuality = params.minQuality
+minAlignLeng = params.minAlignLeng
+primer_mismatch = params.primer_mismatch
+minLen = params.minLen
+minsize = params.minsize
+maxTarSeq = params.maxTarSeq
 perc_identity = params.perc_identity
-evalue        = params.evalue
-qcov          = params.qcov
-lulu          = file(params.lulu)
-mode	      = params.mode
-usearch64     = params.usearch64
+evalue = params.evalue
+qcov = params.qcov
+lulu = file(params.lulu)
+mode = params.mode
+usearch64 = params.usearch64
 
 
 // Setting up channels & inputs for taxonomy assignment step
@@ -286,7 +287,7 @@ process '02_assigned_dmux' {
 
   script:
   """
-  ngsfilter -t ${barcode} -u "orphan.fastq" ${read} > "${sample_id}_${barcode.baseName}_QF_Dmux.fastq"
+  ngsfilter -t ${barcode} -e ${primer_mismatch} -u "orphan.fastq" ${read} > "${sample_id}_${barcode.baseName}_QF_Dmux.fastq"
   """
 }
 
