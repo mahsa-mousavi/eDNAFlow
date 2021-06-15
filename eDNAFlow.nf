@@ -475,14 +475,16 @@ process '07_blast' {
              -perc_identity $perc_identity -evalue $evalue \
              -best_hit_score_edge 0.05 -best_hit_overhang 0.25 \
              -qcov_hsp_perc $qcov -max_target_seqs $maxTarSeq \
-             -query ${zotus_fasta} -out ${sample_id}_blast_Result.tab
+             -query ${zotus_fasta} -out ${sample_id}_blast_Result.tab \
+             -num_threads ${task.cpus}
 
       makeblastdb -in ${zotus_fasta} -parse_seqids -dbtype nucl -out ${sample_id}_zotus
 
       blastn -db ${sample_id}_zotus \
              -outfmt "6 qseqid sseqid pident" \
              -out match_list.txt -qcov_hsp_perc 80 \
-             -perc_identity 84 -query ${zotus_fasta}
+             -perc_identity 84 -query ${zotus_fasta} \
+             -num_threads ${task.cpus}
 
       """
 }
