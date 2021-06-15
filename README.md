@@ -1,5 +1,23 @@
-# eDNAFlow
-## About the workflow
+- [About eDNAFlow](#about-ednaflow)
+- [Setup and test the pipeline](#setup-and-test-the-pipeline)
+- [Running eDNAFlow on your data](#running-ednaflow-on-your-data)
+- [Download database](#download-database)
+- [Basic command usage](#basic-command-usage)
+- [Description of run options](#description-of-run-options)
+  - [Mandatory parameters if your sequences are NOT demultiplexed](#mandatory-parameters-if-your-sequences-are-not-demultiplexed)
+  - [Mandatory parameters if your sequences are demultiplexed](#mandatory-parameters-if-your-sequences-are-demultiplexed)
+  - [Mandatory & optional parameters for running LCA taxonomy assignment script](#mandatory--optional-parameters-for-running-lca-taxonomy-assignment-script)
+  - [Skipping and/or isolating steps](#skipping-andor-isolating-steps)
+  - [Parameters to run eDNAFlow on Cloud/HPC](#parameters-to-run-ednaflow-on-cloudhpc)
+  - [Genearal Optional parameters](#genearal-optional-parameters)
+      - [Quality filtering & demultiplexing](#quality-filtering--demultiplexing)
+      - [Threshold for forming ZOTUs](#threshold-for-forming-zotus)
+      - [Setting blast parameters](#setting-blast-parameters)
+      - [LULU](#lulu)
+      - [Choice of USEARCH32 vs USEARCH64](#choice-of-usearch32-vs-usearch64)
+- [LCA (Lowest Common Ancestor) script for assigning taxonomy](#lca-lowest-common-ancestor-script-for-assigning-taxonomy)
+
+## About eDNAFlow
 eDNAFlow is a fully automated pipeline that employs a number of state-of-the-art applications to process eDNA data from raw sequences (single-end or paired-end) to generation of curated and non-curated zero-radius operational taxonomic units (ZOTUs) and their abundance tables. As part of eDNAFlow, we also present an in-house Python script to assign taxonomy to ZOTUs based on user specified thresholds for assigning Lowest Common Ancestor (LCA). This pipeline is based on Nextflow and Singularity which enables a scalable, portable and reproducible workflow using software containers on a local computer, clouds and high-performance computing (HPC) clusters.
 
 For more information on eDNAFlow and other software used as part of the workflow please read "eDNAFlow, an automated, reproducible and scalable workflow for analysis of environmental DNA (eDNA) sequences exploiting Nextflow and Singularity" in Molecular Ecology Resources with DOI: https://doi.org/10.1111/1755-0998.13356. If you use eDNAFlow, we appreciate if you could cite the eDNAFlow paper and the other papers describing the underlying software.
@@ -153,7 +171,7 @@ For description of LCA script and required file formats see section below: LCA (
 
 ### Parameters to run eDNAFlow on Cloud/HPC
 
-`-profile option`: Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC) and "zeus" (it's specific to users who have access to ZEUS - a high-throughput HPC cluster at the Pawsey Supercomputing Centre). e.g. -profile nimbus
+`-profile option`: Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC), Magnus and "zeus" (it's specific to users who have access to ZEUS/Magnus - high-throughput HPC cluster at the Pawsey Supercomputing Centre). e.g. -profile nimbus
 
 `--bindDir "path2/directoryToBind"`: If you run eDNAFlow on Cloud or HPC, you will need to specify this option, so singularity can bind a directory on the host system. On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume. e.g. --bindDir "/scratch"  
 
