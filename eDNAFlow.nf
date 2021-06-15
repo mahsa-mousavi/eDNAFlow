@@ -53,12 +53,14 @@ def helpMessage() {
       --skipFastqc [bool]
 
     Parameters to run eDNAFlow on Cloud/HPC
-      -profile [string]                 Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC)
-                                      and "zeus" (it's specific to users who have access to ZEUS - a high-throughput HPC cluster at the Pawsey Supercomputing Centre)
+      -profile [string]                 Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC),
+                                        "zeus" and "magnus" (it's specific to users who have access to ZEUS/Magnus - high-throughput HPC clusters at the Pawsey Supercomputing Centre)  
                                       e.g. -profile nimbus
-      --bindDir [dir]                   If you run eDNAFlow on Cloud or HPC, you will need to specify this option
-                                      On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume.
+
+      --bindDir [dir]                 If you run eDNAFlow on Cloud or HPC, you will need to specify this option
+                                      On HPC, it usually will be /scratch and/or /group. On Cloud, it could be your mounted volume.
                                       e.g. --bindDir "/scratch"
+                                      If you need to mount more than one directory put space in between e.g. --bindDir "/scratch /group"
     
     General optional parameters
       --help                            Show this help message
@@ -515,7 +517,7 @@ process '08_lulu' {
 
 process '09_taxonomyAssigned' {
   label 'lca_python3'
-  publishDir "${task.process}_${lca_output}_qCov${lca_qcov}_id${lca_pid}_diff${lca_diff}"
+  publishDir "${task.process}_${lca_output}_qCov${lca_qcov}_id${lca_pid}_diff${lca_diff}", mode: params.publish_dir_mode
   
   input:
     tuple path(table), path(blastRes) from zotuTable_ch.combine(blastFile_ch)
