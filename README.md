@@ -183,9 +183,9 @@ For description of LCA script and required file formats see section below: LCA (
 
 ### Parameters to run eDNAFlow on Cloud/HPC
 
-`-profile option`: Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC), Magnus and "zeus" (it's specific to users who have access to ZEUS/Magnus - high-throughput HPC cluster at the Pawsey Supercomputing Centre). e.g. -profile nimbus
+`-profile option`: Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC), "magnus" and "zeus" (it's specific to users who have access to Zeus/Magnus - high-throughput HPC cluster at the Pawsey Supercomputing Centre). e.g. -profile nimbus
 
-`--bindDir "path2/directoryToBind"`: If you run eDNAFlow on Cloud or HPC, you will need to specify this option, so singularity can bind a directory on the host system. On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume. e.g. --bindDir "/scratch". If you need to mount more than one directory, the put space in between e.g. --bindDir "/scratch /group"  
+`--bindDir "path2/directoryToBind"`: If you run eDNAFlow on Cloud or HPC, you will need to specify this option, so singularity can bind a directory on the host system. On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume. e.g. --bindDir "/scratch". If you need to mount more than one directory, then put space in between e.g. --bindDir "/scratch /group"  
 
 ### Genearal Optional parameters
 
