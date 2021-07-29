@@ -81,8 +81,8 @@ def main():
         for line in file:
             # This will remove not helpfull assignments as set inside '' in below line,
             # but will still keep them in intermediate file for record
-            if 'uncultured bacterium' not in line and 'uncultured organism' not in line and 'uncultured prokaryote' not in line:
-            # read line to the 'll' list
+            if not any(value in line for value in ('uncultured bacterium', 'uncultured organism', 'uncultured prokaryote', 'uncultured eukaryote', 'uncultured marine eukaryote', 'uncultured marine picoeukaryote', 'uncultured Chlorophyta', 'marine metazoan environmental sample', 'zooplankton environmental sample', 'uncultured fungus', 'uncultured metazoan', 'eukaryote marine clone', 'eukaryotic picoplankton environmental sample', 'uncultured alveolate', 'uncultured ciliate', 'uncultured Banisveld eukaryote', 'uncultured chlorophyta', 'uncultured prasinophyte', 'uncultured Rhizaria', 'uncultured stramenopile', 'uncultured microeukaryote', 'uncultured marine dinoflagellate', 'uncultured prasinophyte', 'uncultured Cryptophyta', 'Stramenopiles sp. MAST', 'eukaryote clone OLI11008', 'marine Metazoa environmental sample', 'Dinophyta sp.', 'invertebrate environmental sample', 'uncultured eukaryote')):
+                # read line to the 'll' list
                 ll = line.strip().split('\t')
                 # for the first line add value of the 'll' to the 'acc' list
                 if i == 0:
