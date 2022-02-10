@@ -95,6 +95,11 @@ def helpMessage() {
       --lulu [file]                  An R script to run post-clustering curation with default settings of LULU;
                                      This file has been provided and must be present in the same directory as other scripts;
                                      by default eDNAFlow will be looking for this file in the same directory where eDNAFlow.nf is. 
+      --minMatch_lulu [num]          Default is '${params.minMatch_lulu}'; A minimum threshold (minimum_match) of sequence similarity
+                                     for considering any OTU as an error of another. 
+                                     This setting should be adjusted so higher threshold is employed for genetic markers with little variation
+                                     and/or few expected PCR and sequencing errors (See LULU paper). 
+
     Other options
     --max_memory [str]               Memory limit for each step of pipeline. e.g. --max_memory '8.GB'. Default: '${params.max_memory}'
     --max_time [str]                 Time limit for each step of the pipeline. e.g. --max_time '2.h'. Default: '${params.max_time}'
@@ -125,7 +130,7 @@ qcov = params.qcov
 lulu = file(params.lulu)
 mode = params.mode
 usearch64 = params.usearch64
-
+minMatch_lulu = params.minMatch_lulu
 
 // Setting up channels & inputs for taxonomy assignment step
 
@@ -496,7 +501,7 @@ process '07_blast' {
 
 process '08_lulu' {
   label 'lulu'
-  publishDir "${task.process}_${sample_id}", mode: params.publish_dir_mode
+  publishDir "${task.process}_${sample_id}_minMatch${minMatch_lulu}", mode: params.publish_dir_mode
 
   input:
     tuple val(sample_id), path(a), path(zotuTable), path(match_list) from blast_ch
@@ -507,7 +512,7 @@ process '08_lulu' {
 
   script:
     """
-    Rscript $lulu
+    Rscript $lulu ${minMatch_lulu}
     """
 }
 

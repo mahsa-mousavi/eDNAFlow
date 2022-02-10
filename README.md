@@ -221,7 +221,10 @@ For description of LCA script and required file formats see section below: LCA (
 
 ##### LULU
 
-`--lulu 'lulu.R'`: an R script to run post-clustering curation with default settings of LULU; this file has been provided and must be present in the same directory as other scripts; by default eDNAFlow will be looking for this file
+`--lulu 'lulu.R'`: an R script to run post-clustering curation with default settings of LULU; this file has been provided and must be present in the same directory as other scripts; by default eDNAFlow will be looking for this file. 
+
+`--minMatch_lulu '84'`: "A minimum threshold (minimum_match) of sequence similarity for considering any OTU as an error of another. 
+This setting should be adjusted so higher threshold is employed for genetic markers with little variation and/or few expected PCR and sequencing errors (See LULU paper; page 7 - Frøslev et al., 2017)". If you need to change any other default parameter of LULU you can adjust the line 12 of lulu.R file directly. 
 
 ##### Choice of USEARCH32 vs USEARCH64
 

@@ -1,12 +1,16 @@
 # This is a lulu script for post-clustering of Zotu table created by unoise3
 
+# Enable extracting command-line arguments
+args = commandArgs(trailingOnly=TRUE)
+minMatch_lulu <- args[1]
+
 require(lulu)
 otutab <- read.csv("zotuTable.txt",sep='\t',header=TRUE,as.is=TRUE, row.names = 1)
 matchlist <- read.table("match_list.txt", header=FALSE,as.is=TRUE, stringsAsFactors=FALSE)
 
 # Curation step with lulu
-curated_result <- lulu(otutab, matchlist) # This runs the default parameter of lulu (i.e. minimum_ratio_type = "min", minimum_ratio = 1, minimum_match = 84, minimum_relative_cooccurence = 0.95)
-# there are more parameters to play with the in lulu command 
+curated_result <- lulu(otutab, matchlist, minimum_match = minMatch_lulu) # This runs the default parameter of lulu (i.e. minimum_ratio_type = "min", minimum_ratio = 1, minimum_match = 84, minimum_relative_cooccurence = 0.95)
+# there are more parameters to play with in lulu command. Check lulu paper to understand how they will affect your results 
 
 curated_result$curated_table # Curated OTU table
 curated_result$curated_count # Number of OTUs retained
