@@ -185,7 +185,7 @@ For description of LCA script and required file formats see section below: LCA (
 
 `-profile option`: Currently can choose between "nimbus" (can be used if user has access to more memory i.e. cloud or HPC), "magnus" and "zeus" (it's specific to users who have access to Zeus/Magnus - high-throughput HPC cluster at the Pawsey Supercomputing Centre). e.g. -profile nimbus
 
-`--bindDir "path2/directoryToBind"`: If you run eDNAFlow on Cloud or HPC, you will need to specify this option, so singularity can bind a directory on the host system. On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume. e.g. --bindDir "/scratch". If you need to mount more than one directory, then put space in between e.g. --bindDir "/scratch /group"  
+`--bindDir "path2/directoryToBind"`: If you run eDNAFlow on Cloud or HPC, you will need to specify this option, so singularity can bind a directory on the host system. On HPC, it usually will be /scratch or /group. On Cloud, it could be your mounted volume. e.g. --bindDir "/scratch". If you need to mount more than one directory, then put space in between e.g. --bindDir "/scratch /group".  
 
 ### Genearal Optional parameters
 
@@ -210,6 +210,7 @@ For description of LCA script and required file formats see section below: LCA (
 `--minsize '8'`: the minimum abundance; input sequences with lower abundances are removed; Default is 8; to check how adjusting this option affects the results check out [Usearch documentation](https://drive5.com/usearch/manual/cmd_unoise3.html)
 
 ##### Setting blast parameters
+`--blast_task	'blastn'`: Blast task to be performed; Default is 'blastn'; but can be set to 'megablast' if required
 
 `--maxTarSeq '10'`: a blast parameter; the maximum number of target sequences for hits per query to be returned by Blast; Default is 10
 

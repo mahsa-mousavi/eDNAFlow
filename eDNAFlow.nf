@@ -80,11 +80,12 @@ def helpMessage() {
       --minsize [num]                 The minimum abundance; input sequences with lower abundances are removed; Default is ${params.minsize}
 
     Blast parameters
+      --blast_task [string]	       Blast task to be performed; Default is '${params.blast_task}'; but can be set to 'megablast' if required   
       --maxTarSeq [num]               The maximum number of target sequences for hits per query to be returned by Blast; Default is ${params.maxTarSeq}
-      --perc_identity [num]           Percentage of identical matches; Default is ${params.perc_identity}
-      --evalue [num]                  Expected value for saving blast hits; Default is ${params.evalue}
+      --perc_identity [num]           Percentage of identical matches; Default is '${params.perc_identity}'
+      --evalue [num]                  Expected value for saving blast hits; Default is '${params.evalue}'
       --qcov [num]                    The percent of the query that has to form an alignment against the reference to be retained;
-                                      Higher values prevent alignments of only a short portion of the query to a reference; Default is ${params.qcov}
+                                      Higher values prevent alignments of only a short portion of the query to a reference; Default is '${params.qcov}'
 
     Choice of USEARCH32 vs USEARCH64 
       --mode [str]                   Default is '${params.mode}'; for running with 64 version the mode has to be set to --mode 'usearch64'
@@ -125,6 +126,7 @@ minLen = params.minLen
 minsize = params.minsize
 maxTarSeq = params.maxTarSeq
 perc_identity = params.perc_identity
+blast_task = params.blast_task
 evalue = params.evalue
 qcov = params.qcov
 lulu = file(params.lulu)
@@ -475,7 +477,8 @@ process '07_blast' {
      tuple val(sample_id), path("${sample_id}_blast_Result.tab"), path(zotuTable), path("match_list.txt") into blast_ch
   script:
       """
-      blastn -db "${params.blast_db} ${params.custom_db}" \
+      blastn -task ${blast_task} \
+	     -db "${params.blast_db} ${params.custom_db}" \
              -outfmt "6 qseqid sseqid staxids sscinames scomnames sskingdoms pident length qlen slen mismatch gapopen gaps qstart qend sstart send stitle evalue bitscore qcovs qcovhsp" \
              -perc_identity $perc_identity -evalue $evalue \
              -best_hit_score_edge 0.05 -best_hit_overhang 0.25 \
