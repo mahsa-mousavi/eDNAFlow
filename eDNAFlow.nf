@@ -89,8 +89,10 @@ def helpMessage() {
 
     Choice of USEARCH32 vs USEARCH64 
       --mode [str]                   Default is '${params.mode}'; for running with 64 version the mode has to be set to --mode 'usearch64'
-                                     and below option has to be specified as well
+                                     and below --search64 option has to be specified as well; can set to --mode 'vsearch' (only if --skipDemux is also chosen) 
+                                     below --vsearch option has to be specified as well
       --usearch64 [dir]              Full path to where usearch64 bit version is stored locally
+      --vsearch [dir]                Full path to where vsearch bit version is stored locally
 
     LULU
       --lulu [file]                  An R script to run post-clustering curation with default settings of LULU;
@@ -132,6 +134,7 @@ qcov = params.qcov
 lulu = file(params.lulu)
 mode = params.mode
 usearch64 = params.usearch64
+vsearch = params.vsearch
 minMatch_lulu = params.minMatch_lulu
 
 // Setting up channels & inputs for taxonomy assignment step
@@ -459,6 +462,15 @@ process '06_Uniques_ZOTUs' {
            $usearch64 -unoise3 "${sample_id}_Unq.fasta"  -zotus "${sample_id}_zotus.fasta" -tabbedout "${sample_id}_Unq_unoise3.txt" -minsize $minsize
 
            $usearch64 -otutab ${upper_fasta} -zotus ${sample_id}_zotus.fasta -otutabout zotuTable.txt -mapout zmap.txt
+           """
+   else if(mode == 'vsearch')
+     """
+           $vsearch --derep_fulllength ${upper_fasta} --sizeout --output "${sample_id}_Unq.fasta"
+
+           $vsearch --cluster_unoise "${sample_id}_Unq.fasta" --centroids "${sample_id}_centroids.fasta" --minsize $minsize	   
+           $vsearch --uchime3_denovo "${sample_id}_centroids.fasta" --nonchimeras "${sample_id}_zotus.fasta" --relabel zotu 
+
+           $vsearch --usearch_global ${upper_fasta} --db "${sample_id}_zotus.fasta" --id 0.97 --otutabout zotuTable.txt
            """
 }
 
