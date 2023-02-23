@@ -235,11 +235,13 @@ For description of LCA script and required file formats see section below: LCA (
 `--minMatch_lulu '84'`: "A minimum threshold (minimum_match) of sequence similarity for considering any OTU as an error of another. 
 This setting should be adjusted so higher threshold is employed for genetic markers with little variation and/or few expected PCR and sequencing errors (See LULU paper; page 7 - Frøslev et al., 2017)". If you need to change any other default parameter of LULU you can adjust the line 12 of lulu.R file directly; Default is 84
 
-##### Choice of USEARCH32 vs USEARCH64
+##### Choice of USEARCH32 vs USEARCH64 vs VSEARCH
 
-`--mode 'usearch32'`: by default eDNAFlow uses the free version of usearch (i.e. usearch 32 bit version); if you have access to 64bit version it can be set via changing mode as `--mode 'usearch64'`
+`--mode 'usearch32'`: by default eDNAFlow uses the free version of usearch (i.e. usearch 32 bit version); if you have access to 64bit version it can be set via changing mode as `--mode 'usearch64'`; if you are using the `--skipDemux` option, then you also have the option of using the open source vsearch by setting mode as `--mode 'vsearch'`
 
 `--usearch64 'Path2/Usearch64/executable'`: if mode is set to usearch64, then this option has to be specified; the full path must point to usearch64 executable 
+
+`--vsearch 'Path2/vsearch/executable'`: if mode is set to vsearch, then this option has to be specified; the full path must point to vsearch executable
 
 ## LCA (Lowest Common Ancestor) script for assigning taxonomy
 

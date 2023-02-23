@@ -90,7 +90,7 @@ def helpMessage() {
     --qcov [num]                    The percent of the query that has to form an alignment against the reference to be retained;
                                     Higher values prevent alignments of only a short portion of the query to a reference; Default is '${params.qcov}'
 
-  Choice of USEARCH32 vs USEARCH64 
+  Choice of USEARCH32 vs USEARCH64 vs VSEARCH
     --mode [str]                    Default is '${params.mode}'; for running with 64 version the mode has to be set to --mode 'usearch64'
                                     and below --search64 option has to be specified as well; can set to --mode 'vsearch' (only if --skipDemux is also chosen) 
                                     below --vsearch option has to be specified as well
