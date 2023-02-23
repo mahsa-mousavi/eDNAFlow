@@ -38,15 +38,18 @@ def helpMessage() {
 
   Mandatory and optional arguments for running LCA taxonomy assignment script
     --taxonomyAssignment [bool]
-    --zotuTable [file]              A raw or LULU curated Zotu, OTU, or ASV table file; file must exist in the same directory as eDNAFlow;
-    --blastFile [file]              Blast result file; file must exist in the same directory as eDNAFlow
+    --zotuTable    [file]           A raw or LULU curated Zotu, OTU, or ASV table file; file must exist in the same directory as eDNAFlow;
+    --blastFile    [file]           Blast result file; file must exist in the same directory as eDNAFlow
                                     For file format requirements of --zotuTable & --blastFile check out eDNAFlow GitHub page
+    --fastaFile    [file]           ZOTU, OTU or ASV fasta file; file must exist in the same directory as eDNAFlow
+    --metadataFile [file]           Metadata file with .csv or .tsv extension (there must be a `sample_id` column);  file must exist in the same directory as eDNAFlow
 
     Optional
-    --lca_qcov    [num]             Percent of query coverage; Default is ${params.lca_qcov}
-    --lca_pid     [num]             Percent of identity; Default is ${params.lca_pid}
-    --lca_diff    [num]             The difference (Diff) between % identities of two hits when their qCov is equalDiff; Default is ${params.lca_diff}
-    --lca_output  [string]          Output file name; Default is ${params.lca_output}
+    --lca_qcov      [num]           Percent of query coverage; Default is ${params.lca_qcov}
+    --lca_pid       [num]           Percent of identity; Default is ${params.lca_pid}
+    --lca_diff      [num]           The difference (Diff) between % identities of two hits when their qCov is equalDiff; Default is ${params.lca_diff}
+    --lca_output    [string]        Output file name; Default is ${params.lca_output}
+    --optimise_tree [bool]          Optimise phylogenetic tree in phyloseq object; Default is ${params.optimise_tree}
     
   Skipping                          Skip any of the mentioned steps
     --skipDemux [bool]              If this option is set, then --demuxedInput [file] must be provided
