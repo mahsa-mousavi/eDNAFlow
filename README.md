@@ -81,6 +81,8 @@ In folders 00 to 09 you will find soft link(s) to the final result files of each
 
 `09_taxonomyAssigned_lca_result_qCov#_id#_diff#`: Intermediate and final taxonomy assignment result files
 
+`10_create_phyloseq`: Phyloseq object created after taxonomy assignment
+
 `work`: Holds all the results, intermediate files, ...  
 
 `.nextflow`: Nextflow generated folder holding history info 
@@ -116,8 +118,8 @@ For single-end run:
 For paired-end run:
 `nextflow run eDNAFlow.nf --barcode 'pe_bc*'  --blast_db 'Path2TestBlastDataset/file.fasta' --custom_db 'path2/customDatabase/myDb' [OPTIONS]` 
 
-For running LCA taxonomy assignment script:
-`nextflow run eDNAFlow.nf --taxonomyAssignment --zotuTable "path2/curatedOruncurated_ZotuTable_file" --blastFile "path2/blastResult_file" --lca_output "my_lca_result" [OPTIONS]`
+For running LCA taxonomy assignment and phyloseq scripts:
+`nextflow run eDNAFlow.nf --taxonomyAssignment --zotuTable "path2/curatedOruncurated_ZotuTable_file" --blastFile "path2/blastResult_file" --lca_output "my_lca_result" --fastaFile path2/zotus.fasta --metadataFile path2/metadata.csv [OPTIONS]`
 
 ## Description of run options
 eDNAFlow allows execution of all or parts of the pipeline as long as the correct file formats are provided. For example, the user may choose to run eDNAFlow on a raw file that hasn't been demultiplexed, or opt to provide an already demultiplexed file. Similarly, a user may have performed the clustering with a different algorithm (e.g. DADA2) and is only interested in using the lca script.   
@@ -162,6 +164,10 @@ For description of LCA script and required file formats see section below: LCA (
 
 `--blastFile "blastResult_file"`: Provide the blast result file name;
 
+`--fastaFile "zotus.fasta"`: Provide the ZOTU, OTU or ASV fasta file name;
+
+`--metadataFile "metadata.csv"`: Provide the metadata file name (there must be a `sample_id` column, the file can be .csv or .tsv);
+
 ***Optional***
 
 `--lca_qcov "percent"`: percent of query coverage; Default is 100
@@ -171,6 +177,8 @@ For description of LCA script and required file formats see section below: LCA (
 `--lca_diff "float"`: The difference (Diff) between % identities of two hits when their qCov is equal; e.g. --lca_diff '0.5'; Default is 1
 
 `--lca_output "string"`: Output file name; 
+
+`--optimise_tree`: It's a boolean, setting this to true will optimise the phylogenetic tree in the phyloseq object, but it will also significantly increase the running time of the pipeline;
 
 
 ### Skipping and/or isolating steps
@@ -231,7 +239,7 @@ This setting should be adjusted so higher threshold is employed for genetic mark
 
 `--mode 'usearch32'`: by default eDNAFlow uses the free version of usearch (i.e. usearch 32 bit version); if you have access to 64bit version it can be set via changing mode as `--mode 'usearch64'`; if you are using the `--skipDemux` option, then you also have the option of using the open source vsearch by setting mode as `--mode 'vsearch'`
 
-`--usearch64 'Path2/Usearch64/executable'`: if mode is set to usearch64, then this option has to be specified; the full path must point to usearch64 executable
+`--usearch64 'Path2/Usearch64/executable'`: if mode is set to usearch64, then this option has to be specified; the full path must point to usearch64 executable 
 
 `--vsearch 'Path2/vsearch/executable'`: if mode is set to vsearch, then this option has to be specified; the full path must point to vsearch executable
 
