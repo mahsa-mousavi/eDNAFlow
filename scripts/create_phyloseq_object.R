@@ -130,6 +130,8 @@ otu[,c('ASV', 'domain', 'phylum', 'class', 'order', 'family', 'genus', 'species'
 # Create phylogenetic tree
 #........................................................................
 
+# Phylogenetic tree code based on code from
+# https://ucdavis-bioinformatics-training.github.io/2021-May-Microbial-Community-Analysis/data_reduction/02-dada2
 DNA_set = DNAStringSet(seq_tab$ASV_sequence)
 names(DNA_set) = paste0(seq_tab$ASV)
 
