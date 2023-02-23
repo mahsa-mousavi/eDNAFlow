@@ -565,7 +565,7 @@ process '09_taxonomyAssigned' {
 process '10_create_phyloseq' {
   label 'phyloseq'
 
-  publishDir "${task.process}_${sample_id}", mode: params.publish_dir_mode
+  publishDir "${task.process}", mode: params.publish_dir_mode
 
   input:
     tuple path(i), path(lca_table) from lca_ch
@@ -573,12 +573,13 @@ process '10_create_phyloseq' {
     path(fasta_file) from fastaFile_ch
     path(metadata_file) from metadataFile_ch
     file phyloseqScript from phyloseq_script
+    val optimise from params.optimise_tree
     
   output:
-    path("${sample_id}_phyloseq.rds") into last_ch
+    path("eDNAFlow_phyloseq.rds") into last_ch
 
   script:
     """
-    Rscript $phyloseq_script -l $lca_table -z $zotu_table -f $fasta_file -m $metadata_file -c $task.cpus -p ${sample_id}_phyloseq.rds
+    Rscript $phyloseq_script -l $lca_table -z $zotu_table -f $fasta_file -m $metadata_file -c $task.cpus -p eDNAFlow_phyloseq.rds -o $optimise
     """
 }
