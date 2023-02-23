@@ -11,7 +11,6 @@
 
 suppressPackageStartupMessages(library(phyloseq))
 suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(RColorBrewer))
 suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(optparse))
 suppressPackageStartupMessages(library(dplyr))
